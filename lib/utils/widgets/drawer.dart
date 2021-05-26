@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
+import 'package:info_edu_app_121698/view/dashboard.dart';
 import 'package:info_edu_app_121698/view/drawerPages/applyFranchise.dart';
 import 'package:info_edu_app_121698/view/drawerPages/bridal.dart';
 import 'package:info_edu_app_121698/view/drawerPages/contactUs.dart';
@@ -39,7 +40,7 @@ Widget drawer() {
             ],
           ),
           onTap: () {
-            Get.back();
+            Get.off(() => Dashboard());
           },
         ),
         ListTile(

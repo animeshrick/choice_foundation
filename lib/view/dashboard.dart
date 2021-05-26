@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/drawer.dart';
@@ -17,9 +18,24 @@ class Dashboard extends StatelessWidget {
               fit: StackFit.loose,
               clipBehavior: Clip.none,
               children: [
-                Image.asset(img1),
+                // Image.asset(img1),
+                SizedBox(
+                  height: 0.3.sh,
+                  width: 1.sw,
+                  child: Swiper(
+                    itemBuilder: (BuildContext context, int index) {
+                      return Image.asset(
+                        img1,
+                        fit: BoxFit.fill,
+                      );
+                    },
+                    itemCount: 3,
+                    pagination: new SwiperPagination(),
+                    control: new SwiperControl(),
+                  ),
+                ),
                 Positioned(
-                  top: 220,
+                  top: 150,
                   right: 1,
                   left: 1,
                   child: CircleAvatar(
