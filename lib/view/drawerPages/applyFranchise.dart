@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/button.dart';
 import 'package:info_edu_app_121698/utils/widgets/textField.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ApplyFranchise extends StatefulWidget {
   @override
