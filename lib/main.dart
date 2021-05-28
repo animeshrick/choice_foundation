@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         designSize: Size(360, 690),
         builder: () => GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Dashboard(),
+              home: Dashboard(), //gtgt
             ));
   }
 }
