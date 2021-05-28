@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/button.dart';
 import 'package:info_edu_app_121698/utils/widgets/textField.dart';
@@ -28,20 +29,19 @@ class _DonationState extends State<Donation> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            leadingWidth: 40,
             leading: CircleAvatar(
                 backgroundColor: white,
                 // radius: 15,
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.back();
+                    },
                     icon: Icon(
                       Icons.arrow_back,
                       color: red,
                     ))),
-            automaticallyImplyLeading: false,
-            primary: true,
-            floating: false,
-            pinned: false,
-            forceElevated: false,
+            pinned: true,
             expandedHeight: 150.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
@@ -55,7 +55,6 @@ class _DonationState extends State<Donation> {
         ];
       },
       body: SingleChildScrollView(
-        controller: controller,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 30, 30, 15),
           child: Column(

@@ -10,6 +10,10 @@ class StudentForm extends StatelessWidget {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController dobbCtrl = TextEditingController();
+  TextEditingController genderCtrl = TextEditingController();
+  TextEditingController qualiCtrl = TextEditingController();
+  TextEditingController addCtrl = TextEditingController();
   final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,7 @@ class StudentForm extends StatelessWidget {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            leadingWidth: 40,
             leading: CircleAvatar(
                 backgroundColor: white,
                 // radius: 15,
@@ -30,11 +35,7 @@ class StudentForm extends StatelessWidget {
                       Icons.arrow_back,
                       color: red,
                     ))),
-            automaticallyImplyLeading: false,
-            primary: true,
-            floating: false,
-            pinned: false,
-            forceElevated: false,
+            pinned: true,
             expandedHeight: 150.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
@@ -86,6 +87,10 @@ class StudentForm extends StatelessWidget {
               textField(lastNameController, 'Last Name : '),
               textField(emailController, 'Email Address : '),
               textField(firstNameController, 'Phone Number : '),
+              textField(dobbCtrl, 'DOB of applicant : '),
+              textField(genderCtrl, 'Gender : '),
+              textField(qualiCtrl, 'Your last qualification : '),
+              textField(addCtrl, 'Full address with PIN code:'),
               SizedBox(
                 height: 20,
               ),

@@ -23,6 +23,7 @@ class Dashboard extends StatelessWidget {
                   height: 0.3.sh,
                   width: 1.sw,
                   child: Swiper(
+                    autoplay: true,
                     itemBuilder: (BuildContext context, int index) {
                       return Image.asset(
                         img1,

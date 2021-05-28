@@ -26,28 +26,20 @@ class _ContactUsState extends State<ContactUs> {
           return <Widget>[
             SliverAppBar(
               leadingWidth: 40,
-              
               leading: CircleAvatar(
                 backgroundColor: white,
-
-                // radius: 5,
-
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   icon: Icon(
                     Icons.arrow_back,
                     color: red,
                   ),
                 ),
               ),
-              // automaticallyImplyLeading: false,
-              //primary: true,
-              //floating: false,
               pinned: true,
-              //forceElevated: false,
               expandedHeight: 150.0,
-
-              // title: Text('Contact Us'),
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text('Contact Us'),
@@ -60,7 +52,7 @@ class _ContactUsState extends State<ContactUs> {
           ];
         },
         body: SingleChildScrollView(
-          controller: controller,
+          // controller: controller,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(30, 30, 30, 15),
             child: Column(

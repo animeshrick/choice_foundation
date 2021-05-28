@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:get/get.dart';
-import 'package:info_edu_app_121698/Cources/courses.dart';
+import 'package:info_edu_app_121698/view/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         designSize: Size(360, 690),
         builder: () => GetMaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Courses(),
+              home: Dashboard(),
             ));
   }
 }
