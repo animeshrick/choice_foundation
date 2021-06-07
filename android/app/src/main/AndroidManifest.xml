@@ -1,8 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.info_edu_app_121698">
+        <!--  PERMISSIONS  -->
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="info_edu_app_121698"
         android:icon="@mipmap/ic_launcher">
+           
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB7Wv_mpAJAXOF5LJ7jOiyx8I5EWyAVtqE"/>
+
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

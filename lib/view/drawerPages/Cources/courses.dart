@@ -13,76 +13,59 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
+  final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                width: 1.sw,
-                color: btnColor,
-                height: 0.2.sh,
-                child: Image.asset(
-                  'assets/appBar.png',
+      body: DefaultTabController(
+        length: 2,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, value) {
+            return [
+              SliverAppBar(
+                leadingWidth: 45,
+                leading: Container(
+                  padding: EdgeInsets.only(left: 10),
+                  child: CircleAvatar(
+                      backgroundColor: white,
+                      // radius: 15,
+                      child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: red,
+                            size: 20,
+                          ))),
                 ),
-              ),
-              Positioned(
-                top: 15,
-                child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 20,
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: 15,
-                          color: black,
-                        ),
-                        onPressed: () {
-                          Get.back();
-                        })),
-              ),
-              Positioned(
-                top: 0.1.sh,
-                left: 0.4.sw,
-                child: Center(
-                  child: Text(
-                    'Courses',
-                    style: customizeTextStyle(
-                        FontWeight.bold, twentytwo, Colors.white),
+                pinned: true,
+                expandedHeight: 150.0,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  // title: Text('Apply Franchies'),
+                  background: Image.asset(
+                    appBar,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              )
+                bottom: TabBar(
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  tabs: [
+                    Tab(text: "Technical"),
+                    Tab(text: "Non-Technical"),
+                  ],
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+            children: [
+              Technical(),
+              NonTechnical(),
             ],
           ),
-          Expanded(
-            child: DefaultTabController(
-                length: 2,
-                child: Column(
-                  children: [
-                    TabBar(
-                      unselectedLabelColor: Colors.black,
-                      labelColor: Colors.blue,
-                      tabs: [
-                        Tab(
-                          text: 'Technical',
-                        ),
-                        Tab(
-                          text: 'Non-Technical',
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(children: [
-                        Technical(),
-                        NonTechnical(),
-                      ]),
-                    )
-                  ],
-                )),
-          )
-        ],
+        ),
       ),
     );
   }

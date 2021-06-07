@@ -9,6 +9,7 @@ import 'package:info_edu_app_121698/view/drawerPages/bridal.dart';
 import 'package:info_edu_app_121698/view/drawerPages/contactUs.dart';
 import 'package:info_edu_app_121698/view/drawerPages/donation.dart';
 import 'package:info_edu_app_121698/view/drawerPages/gallery.dart';
+import 'package:info_edu_app_121698/view/drawerPages/result.dart';
 import 'package:info_edu_app_121698/view/drawerPages/studentForm.dart';
 
 Widget drawer() {
@@ -44,23 +45,23 @@ Widget drawer() {
             Get.off(() => Dashboard());
           },
         ),
-        ListTile(
-          title: Row(
-            children: [
-              SizedBox(
-                width: 15,
-              ),
-              Icon(Icons.school_outlined),
-              SizedBox(
-                width: 30,
-              ),
-              Text('Courses'),
-            ],
-          ),
-          onTap: () {
-            Get.to(() => Courses());
-          },
-        ),
+        // ListTile(
+        //   title: Row(
+        //     children: [
+        //       SizedBox(
+        //         width: 15,
+        //       ),
+        //       Icon(Icons.school_outlined),
+        //       SizedBox(
+        //         width: 30,
+        //       ),
+        //       Text('Courses'),
+        //     ],
+        //   ),
+        //   onTap: () {
+        //     Get.to(() => Courses());
+        //   },
+        // ),
         ListTile(
           title: Row(
             children: [
@@ -78,23 +79,23 @@ Widget drawer() {
             Get.to(() => ContactUs());
           },
         ),
-        ListTile(
-          title: Row(
-            children: [
-              SizedBox(
-                width: 15,
-              ),
-              Icon(Icons.star_border),
-              SizedBox(
-                width: 30,
-              ),
-              Text('Apply Franchise'),
-            ],
-          ),
-          onTap: () {
-            Get.to(() => ApplyFranchise());
-          },
-        ),
+        // ListTile(
+        //   title: Row(
+        //     children: [
+        //       SizedBox(
+        //         width: 15,
+        //       ),
+        //       Icon(Icons.star_border),
+        //       SizedBox(
+        //         width: 30,
+        //       ),
+        //       Text('Apply Franchise'),
+        //     ],
+        //   ),
+        //   onTap: () {
+        //     Get.to(() => ApplyFranchise());
+        //   },
+        // ),
         ListTile(
           title: Row(
             children: [
@@ -118,6 +119,23 @@ Widget drawer() {
               SizedBox(
                 width: 15,
               ),
+              Icon(Icons.file_copy_outlined),
+              SizedBox(
+                width: 30,
+              ),
+              Text('Result'),
+            ],
+          ),
+          onTap: () {
+            Get.to(() => ResultPage());
+          },
+        ),
+        ListTile(
+          title: Row(
+            children: [
+              SizedBox(
+                width: 15,
+              ),
               Icon(Icons.favorite_border),
               SizedBox(
                 width: 30,
@@ -129,40 +147,40 @@ Widget drawer() {
             Get.to(() => Donation());
           },
         ),
-        ListTile(
-          title: Row(
-            children: [
-              SizedBox(
-                width: 15,
-              ),
-              Icon(Icons.file_copy_outlined),
-              SizedBox(
-                width: 30,
-              ),
-              Text('Student Application'),
-            ],
-          ),
-          onTap: () {
-            Get.to(() => StudentForm());
-          },
-        ),
-        ListTile(
-          title: Row(
-            children: [
-              SizedBox(
-                width: 15,
-              ),
-              Icon(Icons.animation),
-              SizedBox(
-                width: 30,
-              ),
-              Text('Bridal Beautition Booking'),
-            ],
-          ),
-          onTap: () {
-            Get.to(() => Bridal());
-          },
-        ),
+        // ListTile(
+        //   title: Row(
+        //     children: [
+        //       SizedBox(
+        //         width: 15,
+        //       ),
+        //       Icon(Icons.file_copy_outlined),
+        //       SizedBox(
+        //         width: 30,
+        //       ),
+        //       Text('Student Application'),
+        //     ],
+        //   ),
+        //   onTap: () {
+        //     Get.to(() => StudentForm());
+        //   },
+        // ),
+        // ListTile(
+        //   title: Row(
+        //     children: [
+        //       SizedBox(
+        //         width: 15,
+        //       ),
+        //       Icon(Icons.animation),
+        //       SizedBox(
+        //         width: 30,
+        //       ),
+        //       Text('Bridal Beautition Booking'),
+        //     ],
+        //   ),
+        //   onTap: () {
+        //     Get.to(() => Bridal());
+        //   },
+        // ),
       ],
     ),
   );

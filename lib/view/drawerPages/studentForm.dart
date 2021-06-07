@@ -23,18 +23,22 @@ class StudentForm extends StatelessWidget {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            leadingWidth: 40,
-            leading: CircleAvatar(
-                backgroundColor: white,
-                // radius: 15,
-                child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: red,
-                    ))),
+            leadingWidth: 45,
+            leading: Container(
+              padding: EdgeInsets.only(left: 10),
+              child: CircleAvatar(
+                  backgroundColor: white,
+                  // radius: 15,
+                  child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: red,
+                        size: 20,
+                      ))),
+            ),
             pinned: true,
             expandedHeight: 150.0,
             flexibleSpace: FlexibleSpaceBar(

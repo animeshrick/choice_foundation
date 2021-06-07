@@ -31,23 +31,27 @@ class _BridalState extends State<Bridal> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            leadingWidth: 40,
-            leading: CircleAvatar(
-                backgroundColor: white,
-                // radius: 15,
-                child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: red,
-                    ))),
+            leadingWidth: 45,
+            leading: Container(
+              padding: EdgeInsets.only(left: 10),
+              child: CircleAvatar(
+                  backgroundColor: white,
+                  // radius: 15,
+                  child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: red,
+                        size: 20,
+                      ))),
+            ),
             pinned: true,
             expandedHeight: 150.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text('Make-up Artist/\n Beautitian'),
+              title: Text('Bridal'),
               background: Image.asset(
                 appBar,
                 fit: BoxFit.cover,
@@ -120,7 +124,7 @@ class _BridalState extends State<Bridal> {
                   ),
                   Row(
                     children: [
-                      customText('Price for your makeup kit -  ', black, 18),
+                      customText('Your makeup kit price  -  ', black, 18),
                       customText('Rs.7500', btnColor, 18),
                     ],
                   ),
