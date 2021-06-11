@@ -75,14 +75,16 @@ class _GalleryState extends State<Gallery> {
                       onTap: () {
                         showFullImage(_imageList[index].image!);
                       },
-                      child: CachedNetworkImage(
-                        width: 1.sw,
-                        imageUrl: '${_imageList[index].image}',
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) =>
-                            Text("Image have problem"),
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
+                      child: Card(
+                        child: CachedNetworkImage(
+                          width: 1.sw,
+                          imageUrl: '${_imageList[index].image}',
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) =>
+                              Text("Image have problem"),
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                        ),
                       ),
                     );
                   },

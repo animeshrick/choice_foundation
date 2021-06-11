@@ -23,6 +23,7 @@ class CourseModel {
 
 class CourseData {
   CourseData({
+    required this.courseID,
     required this.courseType,
     required this.courseName,
     required this.courseDetails,
@@ -30,6 +31,7 @@ class CourseData {
     required this.courseFee,
   });
 
+  final String courseID;
   final String courseType;
   final String courseName;
   final String courseDetails;
@@ -37,6 +39,7 @@ class CourseData {
   final String courseFee;
 
   factory CourseData.fromJson(Map<String, dynamic> json) => CourseData(
+        courseID: json['id'],
         courseType: json["course_type"],
         courseName: json["course_name"],
         courseDetails: json["course_details"],

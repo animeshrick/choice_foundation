@@ -10,12 +10,15 @@ import 'package:info_edu_app_121698/model/buttonImages.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/drawer.dart';
 import 'package:get/get.dart';
-import 'package:info_edu_app_121698/view/drawerPages/Cources/courses.dart';
-import 'package:info_edu_app_121698/view/drawerPages/serviceDetails.dart';
-import 'package:info_edu_app_121698/view/drawerPages/studentForm.dart';
-
-import 'drawerPages/applyFranchise.dart';
-import 'drawerPages/bridal.dart';
+import 'Pages/Cources/courses.dart';
+import 'Pages/applyFranchise.dart';
+import 'Pages/bridal.dart';
+import 'Pages/centers.dart';
+import 'Pages/donation.dart';
+import 'Pages/gallery.dart';
+import 'Pages/result.dart';
+import 'Pages/serviceDetails.dart';
+import 'Pages/studentForm.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -28,12 +31,11 @@ class _DashboardState extends State<Dashboard> {
     // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
     //   _getAboutUs();
     // });
-    _getAboutUs();
+    // _getAboutUs();
     _getBannerImages();
     _buttonImages();
   }
 
-  var result = Data(title: '', description: '', image: '').obs;
   var _bannerList = <BannerImageData>[].obs;
   var _btnImageList = <ButtomImageData>[].obs;
 
@@ -80,74 +82,9 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 0.02.sh, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 0.05.sh, 20, 0),
                   child: Column(
                     children: [
-                      /// ---- apply frenchise /student application/
-                      /// ----- service details/course details
-                      GridView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
-                          itemCount: _btnImageList.length,
-                          itemBuilder: (context, i) {
-                            return InkWell(
-                              onTap: () {
-                                if (_btnImageList[i].id == 1) {
-                                  Get.to(() => ApplyFranchise());
-                                } else if (_btnImageList[i].id == 2) {
-                                  Get.to(() => StudentForm());
-                                } else if (_btnImageList[i].id == 3) {
-                                  Get.to(() => ServiceDetails());
-                                } else if (_btnImageList[i].id == 4) {
-                                  Get.to(() => Courses());
-                                }
-                              },
-                              child: Card(
-                                  elevation: 5,
-                                  shadowColor: black,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CachedNetworkImage(
-                                          imageUrl: '${_btnImageList[i].image}',
-                                          fit: BoxFit.fill,
-                                          height: 0.15.sh,
-                                          errorWidget: (context, url, error) =>
-                                              Text("error"),
-                                          imageBuilder:
-                                              (context, imageProvider) =>
-                                                  CircleAvatar(
-                                            radius: 60,
-                                            backgroundImage: imageProvider,
-                                          ),
-                                          placeholder: (context, url) => Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        customText('${_btnImageList[i].name}',
-                                            black, 15.0,
-                                            fontWeight: FontWeight.bold),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            );
-                          }),
-                      SizedBox(
-                        height: 30,
-                      ),
                       InkWell(
                         onTap: () => Get.to(() => Bridal()),
                         child: SizedBox(
@@ -187,41 +124,96 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 30,
+                      ),
 
+                      /// ---- apply frenchise /student application/
+                      /// ----- service details/course details
+                      GridView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: _btnImageList.length,
+                          itemBuilder: (context, i) {
+                            return InkWell(
+                              onTap: () {
+                                if (_btnImageList[i].id == 1) {
+                                  Get.to(() => ApplyFranchise());
+                                } else if (_btnImageList[i].id == 2) {
+                                  Get.to(() => StudentForm());
+                                } else if (_btnImageList[i].id == 3) {
+                                  Get.to(() => ServiceDetails());
+                                } else if (_btnImageList[i].id == 4) {
+                                  Get.to(() => Courses());
+                                } else if (_btnImageList[i].id == 6) {
+                                  Get.to(() => Centers());
+                                } else if (_btnImageList[i].id == 7) {
+                                  Get.to(() => ResultPage());
+                                } else if (_btnImageList[i].id == 8) {
+                                  Get.to(() => Gallery());
+                                } else if (_btnImageList[i].id == 9) {
+                                  Get.to(() => Donation());
+                                }
+                              },
+                              child: Card(
+                                  elevation: 5,
+                                  shadowColor: black,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CachedNetworkImage(
+                                          imageUrl: '${_btnImageList[i].image}',
+                                          fit: BoxFit.fill,
+                                          height: 0.15.sh,
+                                          errorWidget: (context, url, error) =>
+                                              Text("error"),
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  CircleAvatar(
+                                            radius: 60,
+                                            backgroundImage: imageProvider,
+                                          ),
+                                          placeholder: (context, url) => Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text('${_btnImageList[i].name}',
+                                            style: TextStyle(
+                                                shadows: [
+                                                  Shadow(
+                                                    blurRadius: 10.0,
+                                                    color: grey,
+                                                    offset: Offset(5.0, 5.0),
+                                                  ),
+                                                ],
+                                                // decoration:
+                                                //     TextDecoration.underline,
+                                                // decorationColor: green,
+                                                // decorationStyle:
+                                                //     TextDecorationStyle.dashed,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FontStyle.italic)),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            );
+                          }),
                       SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Divider(
-                            height: 10,
-                            color: black,
-                          )),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${result.value.title}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: Divider(
-                            color: black,
-                          )),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      customText('${result.value.description}', black, 16.0),
-                      SizedBox(
-                        height: 40,
+                        height: 30,
                       ),
                     ],
                   ),
@@ -232,9 +224,9 @@ class _DashboardState extends State<Dashboard> {
         ));
   }
 
-  void _getAboutUs() async {
-    result.value = (await networkcallService.getAboutUs())!;
-  }
+  // void _getAboutUs() async {
+  //   result.value = (await networkcallService.getAboutUs())!;
+  // }
 
   void _getBannerImages() async {
     _bannerList.value = (await networkcallService.getBannerAPICall())!;

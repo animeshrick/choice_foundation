@@ -20,7 +20,7 @@ final String bridalText =
     'Top bridal makeup artist in West Bengal best bridal makeup artist in Kolkata nikita bridal makeup artist best makeup krushhh by konica namrata suryvanshi bridal makeup best Bridal Makeup Stylish MakeoverBest ';
 
 final String freText =
-    'CHOICE FOUNDATION\n\nREGD. NO. : 190300620 IN TR ACT 1882, GOVT. OF INDIA\nBenachity, Durgapur - 713213, Paschim Bardhaman\nMob. : 6295584343 / 8972263758\nEmail : choicefoundationdgp@gmail.com';
+    'REGD. NO. : 190300620 IN TR ACT 1882, GOVT. OF INDIA\nBenachity, Durgapur - 713213, Paschim Bardhaman\nMob. : 6295584343 / 8972263758\nEmail : choicefoundationdgp@gmail.com';
 /*-------------------------custom text-------------------------*/
 TextStyle customizeTextStyle(fontWeight, fontSize, fontColor) => TextStyle(
     fontWeight: fontWeight,
@@ -98,6 +98,10 @@ final String result = '$baseUrl/result';
 final String btnImages = '$baseUrl/image';
 final String dontaion = '$baseUrl/donation';
 final String serviceDetails = '$baseUrl/service-details';
+final String studentForm = '$baseUrl/student-application';
+final String allCourses = '$baseUrl/all-course';
+final String center = '$baseUrl/center';
+final String makeUp = '$baseUrl/makeup';
 
 /*-------------------------Fluttertoast-------------------------*/
 

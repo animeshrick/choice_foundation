@@ -70,7 +70,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       SizedBox(
                         width: 1.sw,
                         height: 1.sh,
-                        child: ListView.separated(
+                        child:Obx(()=> ListView.separated(
                             primary: false,
                             shrinkWrap: true,
                             itemBuilder: (_, int i) {
@@ -82,14 +82,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                     '${data[i].title}',
                                     black,
                                     18.0,
-                                  ),
+                                  )
                                 ],
                               );
                             },
                             separatorBuilder: (_, __) => SizedBox(
                                   height: 20,
                                 ),
-                            itemCount: data.length),
+                            itemCount: data.length),)
                       ),
                     ],
                   )),
@@ -97,8 +97,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   void _getServiceDetails() async {
-    showProgress(context);
+    // showProgress(context);
     data.value = (await networkcallService.getServiceAPICall())!;
-    hideProgress(context);
+    // hideProgress(context);
   }
 }
