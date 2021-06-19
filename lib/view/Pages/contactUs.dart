@@ -23,6 +23,9 @@ class _ContactUsState extends State<ContactUs> {
   TextEditingController msgController = TextEditingController();
   final ScrollController controller = ScrollController();
 
+  MarkerId markerId = MarkerId('source');
+  Marker? marker;
+
   Completer<GoogleMapController> _controller = Completer();
   var _data = ConntactUsModel(
           msg: '',
@@ -56,38 +59,39 @@ class _ContactUsState extends State<ContactUs> {
       var instaUrl = value.instagram;
       var lat = double.parse(value.latitude.toString());
       var lon = double.parse(value.longitude.toString());
+      marker = Marker(markerId: markerId, position: LatLng(lat, lon));
       return NestedScrollView(
         controller: controller,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
-             SliverAppBar(
-                  leadingWidth: 45,
-                  leading: Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: CircleAvatar(
-                        backgroundColor: white,
-                        // radius: 15,
-                        child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: red,
-                              size: 20,
-                            ))),
-                  ),
-                  pinned: true,
-                  expandedHeight: 150.0,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text('Contact Us'),
-                    background: Image.asset(
-                      appBar,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+            SliverAppBar(
+              leadingWidth: 45,
+              leading: Container(
+                padding: EdgeInsets.only(left: 10),
+                child: CircleAvatar(
+                    backgroundColor: white,
+                    // radius: 15,
+                    child: IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: red,
+                          size: 20,
+                        ))),
+              ),
+              pinned: true,
+              expandedHeight: 150.0,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text('Contact Us'),
+                background: Image.asset(
+                  appBar,
+                  fit: BoxFit.cover,
                 ),
+              ),
+            ),
           ];
         },
         body: SingleChildScrollView(
@@ -179,7 +183,13 @@ class _ContactUsState extends State<ContactUs> {
                   height: 0.2.sh,
                   width: 1.sw,
                   child: GoogleMap(
+                    buildingsEnabled: true,
+                    indoorViewEnabled: true,
+                    mapToolbarEnabled: false,
+                    scrollGesturesEnabled: true,
+                    compassEnabled: true,
                     mapType: MapType.hybrid,
+                    markers: Set<Marker>.of([marker!]),
                     initialCameraPosition: CameraPosition(
                       target: LatLng(lat, lon),
                       zoom: 14.4746,

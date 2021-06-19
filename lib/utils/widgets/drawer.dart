@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/view/Pages/aboutUs.dart';
-import 'package:info_edu_app_121698/view/Pages/applyFranchise.dart';
 import 'package:info_edu_app_121698/view/Pages/contactUs.dart';
-import 'package:info_edu_app_121698/view/dashboard.dart';
+import 'package:info_edu_app_121698/view/Pages/members.dart';
+import 'package:info_edu_app_121698/view/Pages/regDetails.dart';
+import 'package:info_edu_app_121698/view/Pages/terms&Condition.dart';
 
 Widget drawer() {
   return Drawer(
@@ -45,6 +46,23 @@ Widget drawer() {
               SizedBox(
                 width: 15,
               ),
+              Icon(Icons.supervisor_account_outlined),
+              SizedBox(
+                width: 30,
+              ),
+              Text('Members'),
+            ],
+          ),
+          onTap: () {
+            Get.to(() => Members());
+          },
+        ),
+        ListTile(
+          title: Row(
+            children: [
+              SizedBox(
+                width: 15,
+              ),
               Icon(Icons.phone_outlined),
               SizedBox(
                 width: 30,
@@ -69,7 +87,26 @@ Widget drawer() {
               Text('Registation Details'),
             ],
           ),
-          onTap: () {},
+          onTap: () {
+            Get.to(()=>RegDetails());
+          },
+        ),
+        ListTile(
+          title: Row(
+            children: [
+              SizedBox(
+                width: 15,
+              ),
+              Icon(Icons.sticky_note_2_outlined),
+              SizedBox(
+                width: 30,
+              ),
+              Text('Terms And Conditions'),
+            ],
+          ),
+          onTap: () {
+            Get.to(()=> TermsAndCondition());
+          },
         ),
       ],
     ),

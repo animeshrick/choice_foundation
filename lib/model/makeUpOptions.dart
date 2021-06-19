@@ -5,12 +5,12 @@ class MakeupOptionsModel {
         required this.responseCode,
     });
 
-    final List<MakeupDatum> makeupData;
+    final List<MakeupData> makeupData;
     final String msg;
     final int responseCode;
 
     factory MakeupOptionsModel.fromJson(Map<String, dynamic> json) => MakeupOptionsModel(
-        makeupData: List<MakeupDatum>.from(json["makeupData"].map((x) => MakeupDatum.fromJson(x))),
+        makeupData: List<MakeupData>.from(json["makeupData"].map((x) => MakeupData.fromJson(x))),
         msg: json["msg"],
         responseCode: json["response_code"],
     );
@@ -22,8 +22,8 @@ class MakeupOptionsModel {
     };
 }
 
-class MakeupDatum {
-    MakeupDatum({
+class MakeupData {
+    MakeupData({
         required this.id,
         required this.name,
         required this.price,
@@ -33,7 +33,7 @@ class MakeupDatum {
     final String name;
     final String price;
 
-    factory MakeupDatum.fromJson(Map<String, dynamic> json) => MakeupDatum(
+    factory MakeupData.fromJson(Map<String, dynamic> json) => MakeupData(
         id: json["id"],
         name: json["name"],
         price: json["price"],

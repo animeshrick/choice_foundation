@@ -5,12 +5,17 @@ import 'package:info_edu_app_121698/model/ContactUsModel.dart';
 import 'package:info_edu_app_121698/model/aboutUsModel.dart';
 import 'package:info_edu_app_121698/model/allCoursesModel.dart';
 import 'package:info_edu_app_121698/model/banner.dart';
+import 'package:info_edu_app_121698/model/bridalBannerModel.dart';
 import 'package:info_edu_app_121698/model/buttonImages.dart';
 import 'package:info_edu_app_121698/model/centersModel.dart';
 import 'package:info_edu_app_121698/model/coursesModel.dart';
 import 'package:info_edu_app_121698/model/gallery.dart';
+import 'package:info_edu_app_121698/model/makeUpOptions.dart';
+import 'package:info_edu_app_121698/model/membersModel.dart';
+import 'package:info_edu_app_121698/model/regDetails.dart';
 import 'package:info_edu_app_121698/model/resultModel.dart';
 import 'package:info_edu_app_121698/model/serviceDetailsModel.dart';
+import 'package:info_edu_app_121698/model/termsAndConditions.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 
 import 'MyClient.dart';
@@ -28,16 +33,148 @@ class Networkcall {
 
 /* ------------------------------------------------------------- */
 
-/* ------------------- get makeup kit --------------------- */
-  Future<CenterModel?> getMakeupkitOptions() async {
-    final response = await MyClient().get(Uri.parse(makeUp));
+/* --------------- reg details ---------------------*/
+  Future<List<RegisterData>?> getRegDetailsAPICall() async {
+    final response = await MyClient().get(Uri.parse(regDet));
     var resp = response.body;
-    final myResponse = CenterModel.fromJson(jsonDecode(resp));
-    print('$makeUp --> $resp');
+    final myResponse = CompRegisterModel.fromJson(jsonDecode(resp));
+    // print('$regDet --> $resp');
+    try {
+      if (response.statusCode == 200) {
+        if (myResponse.responseCode == success) {
+          return myResponse.registerData;
+        } else {
+          showToast(myResponse.msg, red);
+          return null;
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------------ members ---------------------- */
+  Future<List<MemberData>?> getMembers() async {
+    final response = await MyClient().get(Uri.parse(members));
+    var resp = response.body;
+    final myResponse = MembersModel.fromJson(jsonDecode(resp));
+    // print('$members --> $resp');
+    try {
+      if (response.statusCode == 200) {
+        if (myResponse.responseCode == success) {
+          return myResponse.memberData;
+        } else {
+          showToast(myResponse.msg, red);
+          return null;
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------------ t & c ---------------------- */
+  Future<TcModel?> getTC() async {
+    final response = await MyClient().get(Uri.parse(tc));
+    var resp = response.body;
+    final myResponse = TcModel.fromJson(jsonDecode(resp));
+    // print('$tc --> $resp');
     try {
       if (response.statusCode == 200) {
         if (myResponse.responseCode == success) {
           return myResponse;
+        } else {
+          showToast(myResponse.msg, red);
+          return null;
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------- bridal form -------------- */
+  Future<bool> getBridalForm({
+    required String makeupId,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String address,
+    required String phone,
+  }) async {
+    Map<String, dynamic> data = {
+      'makeup_id': makeupId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'address': address,
+      'phone': phone
+    };
+    final response = await MyClient().post(Uri.parse(bridal), body: data);
+    var resp = response.body;
+    // print('$bridal --> $resp  $data');
+    final myResponse = jsonDecode(resp);
+    try {
+      if (response.statusCode == 200) {
+        if (myResponse['response_code'] == success) {
+          showToast(myResponse['msg'], btnColor);
+          return true;
+        } else {
+          showToast(myResponse['msg'], red);
+          return false;
+        }
+      } else {
+        showToast(json.decode(response.body)['msg'], red);
+        return false;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------- bridal banner --------------------- */
+  Future<List<BeauticianBannerData>?> getBridalBanner() async {
+    final response = await MyClient().get(Uri.parse(bridalBanner));
+    var resp = response.body;
+    final myResponse = BridalBanner.fromJson(jsonDecode(resp));
+    print('$bridalBanner --> $resp');
+    try {
+      if (response.statusCode == 200) {
+        if (myResponse.responseCode == success) {
+          return myResponse.beauticianBannerData;
+        } else {
+          showToast(myResponse.msg, red);
+          return null;
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------- get makeup kit --------------------- */
+  Future<List<MakeupData>?> getMakeupkitOptions() async {
+    final response = await MyClient().get(Uri.parse(makeUp));
+    var resp = response.body;
+    final myResponse = MakeupOptionsModel.fromJson(jsonDecode(resp));
+    // print('$makeUp --> $resp');
+    try {
+      if (response.statusCode == 200) {
+        if (myResponse.responseCode == success) {
+          return myResponse.makeupData;
         } else {
           showToast(myResponse.msg, red);
           return null;
@@ -56,7 +193,7 @@ class Networkcall {
     final response = await MyClient().get(Uri.parse(center));
     var resp = response.body;
     final myResponse = CenterModel.fromJson(jsonDecode(resp));
-    print('$center --> $resp');
+    // print('$center --> $resp');
     try {
       if (response.statusCode == 200) {
         if (myResponse.responseCode == success) {
@@ -79,7 +216,7 @@ class Networkcall {
     final response = await MyClient().get(Uri.parse(allCourses));
     var resp = response.body;
     final myResponse = AllCoursesModel.fromJson(jsonDecode(resp));
-    print('$allCourses --> $resp');
+    // print('$allCourses --> $resp');
     try {
       if (response.statusCode == 200) {
         if (myResponse.responseCode == success) {
@@ -112,7 +249,7 @@ class Networkcall {
       'course_id': courseID,
       'first_name': firstName,
       'last_name': lastName,
-      'phone': phone,
+      'phone_number': phone,
       'email': email,
       'date_of_birth': dob,
       'gender': gender,
@@ -144,24 +281,21 @@ class Networkcall {
 
 /* ------------------- APPLY FRANCHISE --------------------- */
   Future<bool?> getfranchiseAPICall(
-      String img,
-      String regNo,
-      String orgName,
-      String sheduleDate,
-      String applicantName,
-      String parentName,
-      String age,
-      String dob,
-      String phNo,
-      String belong,
-      String education,
-      String add,
-      String business,
-      String adhar,
-      String place,
-      String date) async {
+      {required String orgName,
+      required String sheduleDate,
+      required String applicantName,
+      required String parentName,
+      required String age,
+      required String dob,
+      required String phNo,
+      required String belong,
+      required String education,
+      required String add,
+      required String business,
+      required String adhar,
+      required String place,
+      required String date}) async {
     Map<String, dynamic> data = {
-      'reg_no': regNo,
       'name_of_the_org': orgName,
       'scheduled_date': sheduleDate,
       'name_of_applicant': applicantName,
@@ -176,13 +310,12 @@ class Networkcall {
       'aadhaar_no': adhar,
       'place': place,
       'date': date,
-      'image_name': img
     };
     final response =
         await MyClient().post(Uri.parse(applyfranchise), body: data);
     var resp = response.body;
-    print('$applyfranchise --> $data $resp');
-    final myResponse = jsonDecode(dontaion);
+    // print('$applyfranchise --> $data $resp');
+    final myResponse = jsonDecode(resp);
     try {
       if (response.statusCode == 200) {
         if (myResponse['response_code'] == success) {
@@ -226,19 +359,26 @@ class Networkcall {
   }
 
 /* ------------------- donation --------------------- */
-  Future<bool?> getDontaionAPICall(String firstName, String lastName,
-      String occupation, String address, String amount) async {
+  Future<bool?> getDontaionAPICall({
+    required String firstName,
+    required String lastName,
+    required String occupation,
+    required String address,
+    required String amount,
+    required String purpose,
+  }) async {
     Map<String, dynamic> data = {
       ' first_Name': firstName,
       'last_name': lastName,
       'occupation': occupation,
       'address': address,
-      'amount': amount
+      'amount': amount,
+      'purpose': purpose
     };
     final response = await MyClient().post(Uri.parse(dontaion), body: data);
     var resp = response.body;
     print('$dontaion --> $data $resp');
-    final myResponse = jsonDecode(dontaion);
+    final myResponse = jsonDecode(resp);
     try {
       if (response.statusCode == 200) {
         if (myResponse['response_code'] == success) {
@@ -263,7 +403,7 @@ class Networkcall {
     Map<String, dynamic> data = {'registration_number': regNo};
     final response = await MyClient().post(Uri.parse(result), body: data);
     var resp = response.body;
-    print('$result --> $resp');
+    // print('$result --> $resp');
 
     try {
       if (response.statusCode == 200) {

@@ -87,46 +87,51 @@ class _StudentFormState extends State<StudentForm> {
                 height: 0.1.sh,
                 child: Card(
                   color: Colors.grey[300],
-                  child: DropdownButtonFormField<String>(
-                    validator: (value) =>
-                        value == null ? 'Please select a course' : null,
-                    hint: Padding(
-                      padding: EdgeInsets.only(left: 15.0),
-                      child: Text('Choose a Course -'),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField<String>(
+                      validator: (value) =>
+                          value == null ? 'Please select a course' : null,
+                      hint: Padding(
+                        padding: EdgeInsets.only(left: 15.0),
+                        child: Text('Choose a Course -'),
+                      ),
+                      isExpanded: true,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: grey,
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: white,
+                            )),
+                      ),
+                      style: const TextStyle(color: Colors.black),
+                      value: _courseVal,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _courseVal = newValue!;
+                        });
+                        _courseId = _coursesList!
+                            .where(
+                                (element) => element.courseName == _courseVal)
+                            .toList()[0]
+                            .id
+                            .toString();
+                        print('  _courseId $_courseId');
+                      },
+                      items: _coursesList!.map((value) {
+                        return DropdownMenuItem<String>(
+                          value: value.courseName,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              value.courseName,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                    isExpanded: true,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                          radius: 15,
-                          backgroundColor: grey,
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: white,
-                          )),
-                    ),
-                    style: const TextStyle(color: Colors.black),
-                    value: _courseVal,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _courseVal = newValue!;
-                      });
-                      _courseId = _coursesList!
-                          .where((element) => element.courseName == _courseVal)
-                          .toList()[0]
-                          .id
-                          .toString();
-                      print('  _courseId $_courseId');
-                    },
-                    items: _coursesList!.map((value) {
-                      return DropdownMenuItem<String>(
-                        value: value.courseName,
-                        child: Text(
-                          value.courseName,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      );
-                    }).toList(),
                   ),
                 ),
               ),

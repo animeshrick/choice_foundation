@@ -20,6 +20,7 @@ class _DonationState extends State<Donation> {
 
   TextEditingController addCtrl = TextEditingController();
   TextEditingController amountCtrl = TextEditingController();
+  TextEditingController purposeCtrl = TextEditingController();
 
   final ScrollController controller = ScrollController();
 
@@ -82,7 +83,9 @@ class _DonationState extends State<Donation> {
               textField(lastNameController, 'Last Name : '),
               textField(occuCtrl, 'Occupation : '),
               textField(addCtrl, 'Address : '),
-              textField(amountCtrl, 'Amount : '),
+              textField(purposeCtrl, 'Your purpose of donation : '),
+              textField(amountCtrl, 'Amount : ',
+                  keyboardType: TextInputType.number),
               SizedBox(
                 height: 20,
               ),
@@ -147,6 +150,18 @@ class _DonationState extends State<Donation> {
                     isDismissible: true,
                     duration: Duration(seconds: 3),
                   );
+                } else if (purposeCtrl.text.isEmpty) {
+                  Get.snackbar(
+                    "Purpose is empty",
+                    "Please enter a purpose",
+                    colorText: red,
+                    icon: Icon(Icons.close),
+                    shouldIconPulse: true,
+                    onTap: (val) {},
+                    barBlur: 20,
+                    isDismissible: true,
+                    duration: Duration(seconds: 3),
+                  );
                 } else {
                   dontaionForm();
                 }
@@ -164,11 +179,12 @@ class _DonationState extends State<Donation> {
   void dontaionForm() async {
     showProgress(context);
     var _result = await networkcallService.getDontaionAPICall(
-        firstNameController.text,
-        lastNameController.text,
-        occuCtrl.text,
-        addCtrl.text,
-        amountCtrl.text);
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        occupation: occuCtrl.text,
+        address: addCtrl.text,
+        amount: amountCtrl.text,
+        purpose:   purposeCtrl.text);
     hideProgress(context);
     if (_result!) {
       firstNameController.clear();
@@ -176,6 +192,7 @@ class _DonationState extends State<Donation> {
       occuCtrl.clear();
       addCtrl.clear();
       amountCtrl.clear();
+      purposeCtrl.clear();
       // Get.snackbar('title', 'message');
     }
   }

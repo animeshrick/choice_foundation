@@ -28,7 +28,7 @@ class CentersData {
 
     final String centerName;
     final String address;
-    final Type type;
+    final String type;
 
     factory CentersData.fromJson(Map<String, dynamic> json) => CentersData(
         centerName: json["center_name"],

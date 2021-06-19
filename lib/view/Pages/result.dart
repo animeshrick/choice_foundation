@@ -167,6 +167,7 @@ class _ResultPageState extends State<ResultPage> {
     var result2 = await networkcallService.getResultAPICall(regNoCtrl.text);
     if (result2 != null) {
       _result.value = result2;
+      regNoCtrl.clear();
     }
     hideProgress(context);
   }

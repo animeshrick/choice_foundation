@@ -102,6 +102,11 @@ final String studentForm = '$baseUrl/student-application';
 final String allCourses = '$baseUrl/all-course';
 final String center = '$baseUrl/center';
 final String makeUp = '$baseUrl/makeup';
+final String bridal = '$baseUrl/bridal-booking';
+final String bridalBanner = '$baseUrl/beautician';
+final String members = '$baseUrl/member';
+final String tc = '$baseUrl/terms-and-condition';
+final String regDet = '$baseUrl/registration-details';
 
 /*-------------------------Fluttertoast-------------------------*/
 

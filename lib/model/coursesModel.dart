@@ -31,7 +31,7 @@ class CourseData {
     required this.courseFee,
   });
 
-  final String courseID;
+  final int courseID;
   final String courseType;
   final String courseName;
   final String courseDetails;
