@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:info_edu_app_121698/api/apiCall.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/button.dart';
 import 'package:info_edu_app_121698/utils/widgets/textField.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Donation extends StatefulWidget {
   @override
@@ -21,16 +23,32 @@ class _DonationState extends State<Donation> {
   TextEditingController addCtrl = TextEditingController();
   TextEditingController amountCtrl = TextEditingController();
   TextEditingController purposeCtrl = TextEditingController();
-
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController phnCtrl = TextEditingController();
   final ScrollController controller = ScrollController();
+  late Razorpay _razorpay;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-  //     dontaionForm();
-  //   });
-  // }
+late PaymentSuccessResponse payResponse;
+
+
+  @override
+  void initState() {
+    super.initState();
+    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    //   dontaionForm();
+    // });
+
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +102,10 @@ class _DonationState extends State<Donation> {
               textField(occuCtrl, 'Occupation : '),
               textField(addCtrl, 'Address : '),
               textField(purposeCtrl, 'Your purpose of donation : '),
+              textField(emailCtrl, 'Your Email : ',
+                  keyboardType: TextInputType.emailAddress),
+              textField(phnCtrl, 'Your Phone Number : ',
+                  keyboardType: TextInputType.phone),
               textField(amountCtrl, 'Amount : ',
                   keyboardType: TextInputType.number),
               SizedBox(
@@ -162,8 +184,33 @@ class _DonationState extends State<Donation> {
                     isDismissible: true,
                     duration: Duration(seconds: 3),
                   );
+                } else if (emailCtrl.text.isEmpty) {
+                  Get.snackbar(
+                    "Email is empty",
+                    "Please enter your Email",
+                    colorText: red,
+                    icon: Icon(Icons.close),
+                    shouldIconPulse: true,
+                    onTap: (val) {},
+                    barBlur: 20,
+                    isDismissible: true,
+                    duration: Duration(seconds: 3),
+                  );
+                } else if (phnCtrl.text.isEmpty) {
+                  Get.snackbar(
+                    "Phone is empty",
+                    "Please enter Your Phone Number",
+                    colorText: red,
+                    icon: Icon(Icons.close),
+                    shouldIconPulse: true,
+                    onTap: (val) {},
+                    barBlur: 20,
+                    isDismissible: true,
+                    duration: Duration(seconds: 3),
+                  );
                 } else {
-                  dontaionForm();
+                  options();
+                  // dontaionForm();
                 }
               }, "SUBMIT"),
               SizedBox(
@@ -176,6 +223,13 @@ class _DonationState extends State<Donation> {
     ));
   }
 
+  void paymentDetails() async {
+    showProgress(context);
+    var _res = await networkcallService.getDonationPaymentDetails(
+        donationId: '1', paymentId: payResponse.paymentId.toString(), status: payResponse.signature.toString());
+    hideProgress(context);
+  }
+
   void dontaionForm() async {
     showProgress(context);
     var _result = await networkcallService.getDontaionAPICall(
@@ -184,16 +238,62 @@ class _DonationState extends State<Donation> {
         occupation: occuCtrl.text,
         address: addCtrl.text,
         amount: amountCtrl.text,
-        purpose:   purposeCtrl.text);
+        purpose: purposeCtrl.text,
+        email: emailCtrl.text,
+        phone: phnCtrl.text);
     hideProgress(context);
-    if (_result!) {
+    paymentDetails();
+    if (_result != null) {
       firstNameController.clear();
       lastNameController.clear();
       occuCtrl.clear();
       addCtrl.clear();
       amountCtrl.clear();
       purposeCtrl.clear();
-      // Get.snackbar('title', 'message');
+      phnCtrl.clear();
+      emailCtrl.clear();
+      Get.snackbar('title', 'message');
     }
+  }
+
+  void options() {
+    var options = {
+      'key': key,
+      'amount': num.parse(amountCtrl.text) * 100,
+      'name': firstNameController.text + ' ' + lastNameController.text,
+      'description': 'Donation for Choice Education',
+      'prefil': {
+        'contact': phnCtrl.text.toString(),
+        'email': emailCtrl.text.toString()
+      },
+      'external': {
+        'wallets': ['paytm'],
+      },
+    };
+    try {
+      showProgress(context);
+      _razorpay.open(options);
+      hideProgress(context);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print(
+      "SUCCESS: " + response.paymentId!,
+    );
+    dontaionForm();
+    showToast("PAYMENT SUCCESS", green);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print("ERRORx: " + response.code.toString() + " - " + response.message!);
+    showToast("ERROR: ${response.code.toString()} + ${response.message!}", red);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print("EXTERNAL_WALLETx: " + response.walletName!);
+    showToast("EXTERNAL_WALLET: " + response.walletName!, grey);
   }
 }

@@ -280,7 +280,7 @@ class _StudentFormState extends State<StudentForm> {
       phone: phoneController.text,
       qualification: qualiCtrl.text,
     );
-    if (result) {
+    if (result != null) {
       firstNameController.clear();
       lastNameController.clear();
       emailController.clear();

@@ -107,6 +107,9 @@ final String bridalBanner = '$baseUrl/beautician';
 final String members = '$baseUrl/member';
 final String tc = '$baseUrl/terms-and-condition';
 final String regDet = '$baseUrl/registration-details';
+final String stuFormPayment = '$baseUrl/student-application-payment-details';
+final String bridalPayment = '$baseUrl/bridal-booking-payment-details';
+final String donationPayment = '$baseUrl/donation-payment-details';
 
 /*-------------------------Fluttertoast-------------------------*/
 
@@ -135,3 +138,6 @@ showProgress(BuildContext context) {
 void hideProgress(BuildContext context) {
   Navigator.pop(context);
 }
+
+/* ------------- razor pay key ----------------- */
+String key = 'rzp_test_br5e2nEyvK5hUZ';

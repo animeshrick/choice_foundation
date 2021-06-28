@@ -244,7 +244,7 @@ class _BridalState extends State<Bridal> {
         makeupId: kitId.toString(),
         phone: phoneController.text);
     hideProgress(context);
-    if (result) {
+    if (result != null) {
       firstNameController.clear();
       lastNameController.clear();
       phoneController.clear();
