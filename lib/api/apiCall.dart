@@ -20,8 +20,9 @@ import 'package:info_edu_app_121698/model/serviceDetailsModel.dart';
 import 'package:info_edu_app_121698/model/studentFormModel.dart';
 import 'package:info_edu_app_121698/model/termsAndConditions.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
-
+import 'package:info_edu_app_121698/model/bankDetailsModel.dart';
 import 'MyClient.dart';
+import 'package:http/http.dart' as http;
 
 class Networkcall {
   static final Networkcall networkcall = new Networkcall._internal();
@@ -36,18 +37,45 @@ class Networkcall {
 
 /* ------------------------------------------------------------- */
 
+/* ------------- bank details ------------ */
+  Future<BankDetailsModel?> getBankDetails() async {
+    final response = await MyClient().get(
+      Uri.parse(bankDetails),
+    );
+    var resp = response.body;
+    print('$bankDetails --> $resp');
+    try {
+      if (response.statusCode == 200) {
+        final myResponse = BankDetailsModel.fromJson(jsonDecode(resp));
+        if (myResponse.responseCode == success) {
+          showToast(myResponse.msg, green);
+          return myResponse;
+        } else {
+          showToast(myResponse.msg, red);
+          return null;
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
 
 /* ---------------- donation payment details ------------------- */
-  Future<StudentFormModel?> getDonationPaymentDetails(
-      {required String donationId,
-      required String paymentId,
-      required String status,}) async {
+  Future<StudentFormModel?> getDonationPaymentDetails({
+    required String donationId,
+    required String paymentId,
+    required String status,
+  }) async {
     Map<String, dynamic> data = {
       'donation_id': donationId,
       'payment_id': paymentId,
       'status': status,
     };
-    final response = await MyClient().post(Uri.parse(donationPayment), body: data);
+    final response =
+        await MyClient().post(Uri.parse(donationPayment), body: data);
     var resp = response.body;
     print('$donationPayment --> $resp  $data');
     try {
@@ -68,7 +96,6 @@ class Networkcall {
       throw internetError;
     }
   }
-
 
 /* --------------- reg details ---------------------*/
   Future<List<RegisterData>?> getRegDetailsAPICall() async {
@@ -147,6 +174,7 @@ class Networkcall {
     required String email,
     required String address,
     required String phone,
+    required File image,
   }) async {
     Map<String, dynamic> data = {
       'makeup_id': makeupId,
@@ -154,14 +182,31 @@ class Networkcall {
       'last_name': lastName,
       'email': email,
       'address': address,
-      'phone': phone
+      'phone': phone,
+      'image': image
     };
-    final response = await MyClient().post(Uri.parse(bridal), body: data);
-    var resp = response.body;
+
+    var request = http.MultipartRequest('POST', Uri.parse(bridal));
+    request.fields['makeup_id'] = makeupId;
+    request.fields['first_name'] = firstName;
+    request.fields['last_name'] = lastName;
+    request.fields['email'] = email;
+    request.fields['address'] = address;
+    request.fields['phone'] = phone;
+
+    request.files.add(http.MultipartFile(
+        'image', image.readAsBytes().asStream(), image.lengthSync(),
+        filename: image.path.split('/').last));
+
+    var response = await request.send();
+    //print(await response.stream.bytesToString());
+    var resBody = await response.stream.bytesToString();
+    // final response = await MyClient().post(Uri.parse(bridal), body: data);
+    // var resp = response.body;
     // print('$bridal --> $resp  $data');
     try {
       if (response.statusCode == 200) {
-        final myResponse = BridalFormModel.fromJson(jsonDecode(resp));
+        final myResponse = BridalFormModel.fromJson(jsonDecode(resBody));
         if (myResponse.responseCode == success) {
           showToast(myResponse.msg, green);
           return myResponse;
@@ -170,7 +215,7 @@ class Networkcall {
           return null;
         }
       } else {
-        throw response.body;
+        throw response.stream.bytesToString();
       }
     } on SocketException {
       showToast(internetError, red);
@@ -183,7 +228,7 @@ class Networkcall {
     final response = await MyClient().get(Uri.parse(bridalBanner));
     var resp = response.body;
     final myResponse = BridalBanner.fromJson(jsonDecode(resp));
-    print('$bridalBanner --> $resp');
+    // print('$bridalBanner --> $resp');
     try {
       if (response.statusCode == 200) {
         if (myResponse.responseCode == success) {
@@ -271,16 +316,18 @@ class Networkcall {
   }
 
 /* ------------------- student form -------------- */
-  Future<StudentFormModel?> getStudentForm(
-      {required String courseID,
-      required String firstName,
-      required String lastName,
-      required String email,
-      required String phone,
-      required String dob,
-      required String gender,
-      required String qualification,
-      required String address}) async {
+  Future<StudentFormModel?> getStudentForm({
+    required String courseID,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String phone,
+    required String dob,
+    required String gender,
+    required String qualification,
+    required String address,
+    required File image,
+  }) async {
     Map<String, dynamic> data = {
       'course_id': courseID,
       'first_name': firstName,
@@ -292,12 +339,31 @@ class Networkcall {
       'qualification': qualification,
       'address': address,
     };
-    final response = await MyClient().post(Uri.parse(studentForm), body: data);
-    var resp = response.body;
-    print('$studentForm --> $resp  $data');
+
+    var request = http.MultipartRequest('POST', Uri.parse(studentForm));
+    request.fields['course_id'] = courseID;
+    request.fields['first_name'] = firstName;
+    request.fields['last_name'] = lastName;
+    request.fields['phone_number'] = phone;
+    request.fields['email'] = email;
+    request.fields['date_of_birth'] = dob;
+    request.fields['gender'] = gender;
+    request.fields['qualification'] = qualification;
+    request.fields['address'] = address;
+
+    request.files.add(http.MultipartFile(
+        'image', image.readAsBytes().asStream(), image.lengthSync(),
+        filename: image.path.split('/').last));
+
+    var response = await request.send();
+    // print(await response.stream.bytesToString());
+    var respBody = await response.stream.bytesToString();
+    // final response = await MyClient().post(Uri.parse(studentForm), body: data);
+    // var resp = response.body;
+    // print('$studentForm --> $resp  $data');
     try {
       if (response.statusCode == 200) {
-        final myResponse = StudentFormModel.fromJson(jsonDecode(resp));
+        final myResponse = StudentFormModel.fromJson(jsonDecode(respBody));
         if (myResponse.responseCode == success) {
           showToast(myResponse.msg, green);
           return myResponse;
@@ -306,7 +372,7 @@ class Networkcall {
           return null;
         }
       } else {
-        throw response.body;
+        throw response.stream.bytesToString();
       }
     } on SocketException {
       showToast(internetError, red);
@@ -399,8 +465,9 @@ class Networkcall {
     required String lastName,
     required String occupation,
     required String address,
-    required String amount,
+    // required String amount,
     required String purpose,
+    required File image,
     required String email,
     required String phone,
   }) async {
@@ -409,17 +476,36 @@ class Networkcall {
       'last_name': lastName,
       'occupation': occupation,
       'address': address,
-      'amount': amount,
+      // 'amount': amount,
       'purpose': purpose,
+      'image': image,
       'email': email,
       'phone': phone,
     };
-    final response = await MyClient().post(Uri.parse(dontaion), body: data);
-    var resp = response.body;
-    print('x $dontaion --> $data $resp');
+
+    var request = http.MultipartRequest('POST', Uri.parse(dontaion));
+    request.fields['first_name'] = firstName;
+    request.fields['last_name'] = lastName;
+    request.fields['occupation'] = occupation;
+    request.fields['address'] = address;
+    // 'amount': amount,
+    request.fields['purpose'] = purpose;
+    request.fields['email'] = email;
+    request.fields['phone'] = phone;
+
+    request.files.add(http.MultipartFile(
+        'image', image.readAsBytes().asStream(), image.lengthSync(),
+        filename: image.path.split('/').last));
+
+    var response = await request.send();
+    // print(await response.stream.bytesToString());
+    var respBody = await response.stream.bytesToString();
+    // final response = await MyClient().post(Uri.parse(dontaion), body: data);
+    // var resp = response.body;
+    // print('x $dontaion --> $data $resp');
     try {
       if (response.statusCode == 200) {
-        final myResponse = DonationModel.fromJson(jsonDecode(resp));
+        final myResponse = DonationModel.fromJson(jsonDecode(respBody));
         if (myResponse.responseCode == success) {
           showToast(myResponse.msg, green);
           return myResponse;
@@ -428,7 +514,7 @@ class Networkcall {
           return null;
         }
       } else {
-        throw response.body;
+        throw response.stream.bytesToString();
       }
     } on SocketException {
       showToast(internetError, red);

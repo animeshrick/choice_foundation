@@ -195,11 +195,12 @@ class _DashboardState extends State<Dashboard> {
                                                     offset: Offset(5.0, 5.0),
                                                   ),
                                                 ],
-                                                // decoration:
-                                                //     TextDecoration.underline,
-                                                // decorationColor: green,
-                                                // decorationStyle:
-                                                //     TextDecorationStyle.dashed,
+                                                color: i < 4 ? red : black,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationColor: green,
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
                                                 fontSize: 15.0,
                                                 fontWeight: FontWeight.bold,
                                                 fontStyle: FontStyle.italic)),

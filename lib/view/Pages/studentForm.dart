@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:info_edu_app_121698/api/apiCall.dart';
 import 'package:info_edu_app_121698/model/allCoursesModel.dart';
+import 'package:info_edu_app_121698/model/bankDetailsModel.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/utils/widgets/button.dart';
 import 'package:info_edu_app_121698/utils/widgets/textField.dart';
@@ -29,12 +35,22 @@ class _StudentFormState extends State<StudentForm> {
 
   TextEditingController addCtrl = TextEditingController();
 
+  String? imgPath;
+  File? _image;
+  final picker = ImagePicker();
+
   String? _courseVal, _courseId;
   List<AllcourseData>? _coursesList = [];
+
+  var _bankDetails =
+      BankDetailsModel(data: BankData(), msg: '', responseCode: 1).obs;
   @override
   void initState() {
     super.initState();
     _allCourses();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      bankDetails();
+    });
   }
 
   final ScrollController controller = ScrollController();
@@ -82,6 +98,20 @@ class _StudentFormState extends State<StudentForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  customText('For Payment Details click here :', black, 18),
+                  IconButton(
+                      onPressed: () {
+                        _paymentDetails();
+                      },
+                      icon: Icon(Icons.info_outline)),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
               customText('Select a course', btnColor, 18),
               SizedBox(
                 height: 0.1.sh,
@@ -149,6 +179,28 @@ class _StudentFormState extends State<StudentForm> {
               textField(genderCtrl, 'Gender : '),
               textField(qualiCtrl, 'Your last qualification : '),
               textField(addCtrl, 'Full address with PIN code:'),
+              customText('Upload Payment Recipt :', black, 18,
+                  fontWeight: FontWeight.w400),
+              SizedBox(
+                height: 15,
+              ),
+              paybutton(() {
+                _pickImage();
+              }, 'Upload Image'),
+              SizedBox(
+                height: 15,
+              ),
+              _image == null
+                  ? customText('No Image picked', red, 15)
+                  : Center(
+                      child: Image.file(
+                        _image!,
+                        scale: 2,
+                        filterQuality: FilterQuality.high,
+                        cacheHeight: 200,
+                        cacheWidth: 200,
+                      ),
+                    ),
               SizedBox(
                 height: 20,
               ),
@@ -263,6 +315,148 @@ class _StudentFormState extends State<StudentForm> {
     ));
   }
 
+  Future getImagefromCam() async {
+    final pickedImage = await picker.getImage(source: ImageSource.camera);
+    setState(() {
+      if (pickedImage != null) {
+        print('path --${pickedImage.path}');
+        _image = File(pickedImage.path);
+        Get.back();
+      } else {
+        showToast('Image not picked', red);
+      }
+    });
+  }
+
+  Future getImagefromGallery() async {
+    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedImage != null) {
+        print('path --${pickedImage.path}');
+        _image = File(pickedImage.path);
+        Get.back();
+      } else {
+        showToast('Image not picked', red);
+      }
+    });
+  }
+
+  Future<void> _pickImage() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Your Image'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                ElevatedButton.icon(
+                  label: customText('Camera', black, 15),
+                  onPressed: () {
+                    getImagefromCam();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.grey,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  icon: Icon(Icons.camera),
+                ),
+                ElevatedButton.icon(
+                  label: customText('Gallery', black, 15),
+                  onPressed: () {
+                    getImagefromGallery();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.grey,
+                      onPrimary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  icon: Icon(Icons.file_present),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _paymentDetails() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Bank Account Details'),
+          content: Obx(
+            () {
+              var res = _bankDetails.value.data;
+              print('ds ${res.mobile}');
+              return SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    customText('GPay/PhonePe : ${res.mobile}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText(
+                        'Bank Account No1. : ${res.accountNo1}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText('Bank Name : ${res.bankName1}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText('IFSC Code : ${res.ifscCode1}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText(
+                        'Bank Account No2. : ${res.bankName2}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText('Bank Name : ${res.bankName2}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    customText('IFSC Code : ${res.ifscCode2}', black, 15),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => Get.back(), child: customText('OK', grey, 15))
+          ],
+        );
+      },
+    );
+  }
+
+  void bankDetails() async {
+    showProgress(context);
+    _bankDetails.value = (await networkcallService.getBankDetails())!;
+    hideProgress(context);
+  }
+
+  // void _selectImage() async {
+  //   final _picker = ImagePicker();
+  //   var img = await _picker.getImage(source: ImageSource.camera);
+  //   if (img != null) {
+  //     imgPath = img.path;
+  //     String base64img = base64.encode(File(imgPath!).readAsBytesSync());
+  //     setState(() {});
+  //   }
+  // }
+
   void _allCourses() async {
     _coursesList = await networkcallService.getAllCoursesAPICall();
     setState(() {});
@@ -270,16 +464,16 @@ class _StudentFormState extends State<StudentForm> {
 
   void _studentForm() async {
     var result = await networkcallService.getStudentForm(
-      address: addCtrl.text,
-      courseID: _courseId.toString(),
-      dob: dobbCtrl.text,
-      email: emailController.text,
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      gender: genderCtrl.text,
-      phone: phoneController.text,
-      qualification: qualiCtrl.text,
-    );
+        address: addCtrl.text,
+        courseID: _courseId.toString(),
+        dob: dobbCtrl.text,
+        email: emailController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        gender: genderCtrl.text,
+        phone: phoneController.text,
+        qualification: qualiCtrl.text,
+        image: _image!);
     if (result != null) {
       firstNameController.clear();
       lastNameController.clear();
@@ -289,6 +483,7 @@ class _StudentFormState extends State<StudentForm> {
       genderCtrl.clear();
       qualiCtrl.clear();
       addCtrl.clear();
+      _image = null;
     }
   }
 }

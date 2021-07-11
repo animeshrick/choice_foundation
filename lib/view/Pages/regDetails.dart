@@ -79,7 +79,7 @@ class _RegDetailsState extends State<RegDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 customText(
-                                    '${_detailsList[i].id}. ${_detailsList[i].description}',
+                                    '${i+1}. ${_detailsList[i].description}',
                                     black,
                                     16),
                               ],

@@ -29,7 +29,18 @@ Widget button(Function() onPressed, String text) {
           child: customText(text, black, 16.0)));
 }
 
-
+Widget paybutton(Function() onPressed, String text) {
+  return SizedBox(
+      width: 1.sw,
+      height: 0.075.sh,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))),
+          onPressed: onPressed,
+          child: customText(text, black, 16.0)));
+}
 /*
                       ElevatedButton(
                         onPressed: () {},

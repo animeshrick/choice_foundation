@@ -110,6 +110,7 @@ final String regDet = '$baseUrl/registration-details';
 final String stuFormPayment = '$baseUrl/student-application-payment-details';
 final String bridalPayment = '$baseUrl/bridal-booking-payment-details';
 final String donationPayment = '$baseUrl/donation-payment-details';
+final String bankDetails = '$baseUrl/get-bank-details';
 
 /*-------------------------Fluttertoast-------------------------*/
 
