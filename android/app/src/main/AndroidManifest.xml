@@ -3,7 +3,8 @@
         <!--  PERMISSIONS  -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <application
         android:label="info_edu_app_121698"
         android:icon="@mipmap/ic_launcher">

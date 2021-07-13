@@ -41,7 +41,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          centerTitle: true,
+          title: customText('Welcome to Choice Foundation', black, 18,
+              fontWeight: FontWeight.bold),
+        ),
         drawer: drawer(),
         body: Obx(
           () => SingleChildScrollView(

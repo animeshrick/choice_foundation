@@ -179,29 +179,29 @@ class _ContactUsState extends State<ContactUs> {
                 ),
 
                 /// ---------------- map --------------
-                Container(
-                  height: 0.2.sh,
-                  width: 1.sw,
-                  child: GoogleMap(
-                    buildingsEnabled: true,
-                    indoorViewEnabled: true,
-                    mapToolbarEnabled: false,
-                    scrollGesturesEnabled: true,
-                    compassEnabled: true,
-                    mapType: MapType.hybrid,
-                    markers: Set<Marker>.of([marker!]),
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(lat, lon),
-                      zoom: 14.4746,
-                    ),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                  ),
-                ),
-                Divider(
-                  thickness: 1,
-                ),
+                // Container(
+                //   height: 0.2.sh,
+                //   width: 1.sw,
+                //   child: GoogleMap(
+                //     buildingsEnabled: true,
+                //     indoorViewEnabled: true,
+                //     mapToolbarEnabled: false,
+                //     scrollGesturesEnabled: true,
+                //     compassEnabled: true,
+                //     mapType: MapType.hybrid,
+                //     markers: Set<Marker>.of([marker!]),
+                //     initialCameraPosition: CameraPosition(
+                //       target: LatLng(lat, lon),
+                //       zoom: 14.4746,
+                //     ),
+                //     onMapCreated: (GoogleMapController controller) {
+                //       _controller.complete(controller);
+                //     },
+                //   ),
+                // ),
+                // Divider(
+                //   thickness: 1,
+                // ),
 
                 /// ---------------- social -----------------
                 Row(

@@ -43,12 +43,12 @@ class Networkcall {
       Uri.parse(bankDetails),
     );
     var resp = response.body;
-    print('$bankDetails --> $resp');
+    // print('$bankDetails --> $resp');
     try {
       if (response.statusCode == 200) {
         final myResponse = BankDetailsModel.fromJson(jsonDecode(resp));
         if (myResponse.responseCode == success) {
-          showToast(myResponse.msg, green);
+          // showToast(myResponse.msg, green);
           return myResponse;
         } else {
           showToast(myResponse.msg, red);
@@ -77,7 +77,7 @@ class Networkcall {
     final response =
         await MyClient().post(Uri.parse(donationPayment), body: data);
     var resp = response.body;
-    print('$donationPayment --> $resp  $data');
+    // print('$donationPayment --> $resp  $data');
     try {
       if (response.statusCode == 200) {
         final myResponse = StudentFormModel.fromJson(jsonDecode(resp));
