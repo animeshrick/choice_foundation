@@ -43,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: customText('Welcome to Choice Foundation', black, 18,
+          title: customText('Welcome to Choice Foundation', white, 18,
               fontWeight: FontWeight.bold),
         ),
         drawer: drawer(),

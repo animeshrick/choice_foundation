@@ -1,12 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.info_edu_app_121698">
+    package="com.foundation_choice">
         <!--  PERMISSIONS  -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
    <application
-        android:label="info_edu_app_121698"
+        android:label="Choice Foundation"
         android:icon="@mipmap/ic_launcher">
            
         <meta-data android:name="com.google.android.geo.API_KEY"

@@ -63,7 +63,7 @@ class _ResultPageState extends State<ResultPage> {
                       SizedBox(
                         height: 0.15.sh,
                       ),
-                      textField(regNoCtrl, 'Registation Number :'),
+                      textField(regNoCtrl, 'Registration Number :'),
                       SizedBox(
                         height: 0.02.sh,
                       ),

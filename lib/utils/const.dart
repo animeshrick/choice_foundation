@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 /// ---------------------- image -------------
 final String img1 = 'assets/1.png';
@@ -111,6 +112,8 @@ final String stuFormPayment = '$baseUrl/student-application-payment-details';
 final String bridalPayment = '$baseUrl/bridal-booking-payment-details';
 final String donationPayment = '$baseUrl/donation-payment-details';
 final String bankDetails = '$baseUrl/get-bank-details';
+final String searchTechnical = '$baseUrl/filter-technical-center';
+final String searchNonTechnical = '$baseUrl/filter-nontechnical-center';
 
 /*-------------------------Fluttertoast-------------------------*/
 
@@ -139,6 +142,13 @@ showProgress(BuildContext context) {
 void hideProgress(BuildContext context) {
   Navigator.pop(context);
 }
+
+
+  String formatDate(String date) {
+    DateTime d = DateFormat('yyyy-MM-dd').parse(date);
+    return DateFormat('dd/MM/yyyy').format(d);
+  }
+
 
 /* ------------- razor pay key ----------------- */
 String key = 'rzp_test_br5e2nEyvK5hUZ';

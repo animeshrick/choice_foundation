@@ -355,7 +355,11 @@ class _BridalState extends State<Bridal> {
                   children: <Widget>[
                     customText('GPay/PhonePe : ${res.mobile}', black, 15),
                     SizedBox(
-                      height: 10,
+                      height: 5,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 5,
                     ),
                     customText(
                         'Bank Account No1. : ${res.accountNo1}', black, 15),
@@ -368,10 +372,14 @@ class _BridalState extends State<Bridal> {
                     ),
                     customText('IFSC Code : ${res.ifscCode1}', black, 15),
                     SizedBox(
-                      height: 10,
+                      height: 5,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 5,
                     ),
                     customText(
-                        'Bank Account No2. : ${res.bankName2}', black, 15),
+                        'Bank Account No2. : ${res.accountNo2}', black, 15),
                     SizedBox(
                       height: 10,
                     ),

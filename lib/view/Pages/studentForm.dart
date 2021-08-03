@@ -383,7 +383,7 @@ class _StudentFormState extends State<StudentForm> {
     );
   }
 
-  Future<void> _paymentDetails() async {
+   Future<void> _paymentDetails() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
@@ -399,7 +399,11 @@ class _StudentFormState extends State<StudentForm> {
                   children: <Widget>[
                     customText('GPay/PhonePe : ${res.mobile}', black, 15),
                     SizedBox(
-                      height: 10,
+                      height: 5,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 5,
                     ),
                     customText(
                         'Bank Account No1. : ${res.accountNo1}', black, 15),
@@ -412,10 +416,14 @@ class _StudentFormState extends State<StudentForm> {
                     ),
                     customText('IFSC Code : ${res.ifscCode1}', black, 15),
                     SizedBox(
-                      height: 10,
+                      height: 5,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: 5,
                     ),
                     customText(
-                        'Bank Account No2. : ${res.bankName2}', black, 15),
+                        'Bank Account No2. : ${res.accountNo2}', black, 15),
                     SizedBox(
                       height: 10,
                     ),

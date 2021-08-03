@@ -11,6 +11,7 @@ import 'package:info_edu_app_121698/model/buttonImages.dart';
 import 'package:info_edu_app_121698/model/centersModel.dart';
 import 'package:info_edu_app_121698/model/coursesModel.dart';
 import 'package:info_edu_app_121698/model/donationModel.dart';
+import 'package:info_edu_app_121698/model/franchiseModel.dart';
 import 'package:info_edu_app_121698/model/gallery.dart';
 import 'package:info_edu_app_121698/model/makeUpOptions.dart';
 import 'package:info_edu_app_121698/model/membersModel.dart';
@@ -18,9 +19,11 @@ import 'package:info_edu_app_121698/model/regDetails.dart';
 import 'package:info_edu_app_121698/model/resultModel.dart';
 import 'package:info_edu_app_121698/model/serviceDetailsModel.dart';
 import 'package:info_edu_app_121698/model/studentFormModel.dart';
+import 'package:info_edu_app_121698/model/technicalSearch.dart';
 import 'package:info_edu_app_121698/model/termsAndConditions.dart';
 import 'package:info_edu_app_121698/utils/const.dart';
 import 'package:info_edu_app_121698/model/bankDetailsModel.dart';
+import 'package:intl/intl.dart';
 import 'MyClient.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,6 +39,66 @@ class Networkcall {
   /// --------------------------- API CALLS -------------------------
 
 /* ------------------------------------------------------------- */
+
+/* ------------------ search no-technical ---------------- */
+  Future<List<SearchData>?> getNonTechSearchApiCall({
+    required String searchItem,
+  }) async {
+    Map<String, dynamic> data = {
+      'center_search': searchItem,
+    };
+    final response =
+        await MyClient().post(Uri.parse(searchNonTechnical), body: data);
+    var resp = response.body;
+    print('$searchNonTechnical --> $resp  $data');
+    try {
+      if (response.statusCode == 200) {
+        final myResponse = CenterSearch.fromJson(jsonDecode(resp));
+        if (myResponse.responseCode == success) {
+          // showToast(myResponse.msg, green);
+          return myResponse.technicalCenterData;
+        } else {
+          showToast(myResponse.msg, red);
+          return [];
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
+
+/* ------------------ search technical ---------------- */
+  Future<List<SearchData>?> getTechSearchApiCall({
+    required String searchItem,
+  }) async {
+    Map<String, dynamic> data = {
+      'center_search': searchItem,
+    };
+    final response =
+        await MyClient().post(Uri.parse(searchTechnical), body: data);
+    var resp = response.body;
+    print('$searchTechnical --> $resp  $data');
+    try {
+      if (response.statusCode == 200) {
+        final myResponse = CenterSearch.fromJson(jsonDecode(resp));
+        if (myResponse.responseCode == success) {
+          // showToast(myResponse.msg, green);
+          return myResponse.technicalCenterData;
+        } else {
+          showToast(myResponse.msg, red);
+          return [];
+        }
+      } else {
+        throw response.body;
+      }
+    } on SocketException {
+      showToast(internetError, red);
+      throw internetError;
+    }
+  }
 
 /* ------------- bank details ------------ */
   Future<BankDetailsModel?> getBankDetails() async {
@@ -381,7 +444,7 @@ class Networkcall {
   }
 
 /* ------------------- APPLY FRANCHISE --------------------- */
-  Future<bool?> getfranchiseAPICall(
+  Future<FranchiseModel?> getfranchiseAPICall(
       {required String orgName,
       required String sheduleDate,
       required String applicantName,
@@ -395,40 +458,66 @@ class Networkcall {
       required String business,
       required String adhar,
       required String place,
+      required File img,
       required String date}) async {
-    Map<String, dynamic> data = {
+    Map<String, String> data = {
       'name_of_the_org': orgName,
-      'scheduled_date': sheduleDate,
+      'scheduled_date':
+         formatDate(sheduleDate.split(' ')[0]),
       'name_of_applicant': applicantName,
       'name_of_guardian': parentName,
       'age': age,
-      'date_of_birth': dob,
+      'date_of_birth': formatDate(dob.split(' ')[0]),
       'contact_no': phNo,
       'belong': belong,
-      'educational_qualification[]': education,
+      'educational_qualification': education,
       'permanent_address': add,
       'nature_of_business': business,
       'aadhaar_no': adhar,
       'place': place,
-      'date': date,
+      'date': formatDate(date.split(' ')[0]),
     };
-    final response =
-        await MyClient().post(Uri.parse(applyfranchise), body: data);
-    var resp = response.body;
-    // print('$applyfranchise --> $data $resp');
-    final myResponse = jsonDecode(resp);
+    print(data);
+    var request = http.MultipartRequest('POST', Uri.parse(applyfranchise));
+    request.fields.addAll(data);
+
+    // request.fields['name_of_the_org'] = orgName;
+    // request.fields['scheduled_date'] = sheduleDate;
+    // request.fields['name_of_applicant'] = applicantName;
+    // request.fields['name_of_guardian'] = parentName;
+    // request.fields['age'] = age;
+    // request.fields['date_of_birth'] = dob;
+    // request.fields['contact_no'] = phNo;
+    // request.fields['belong'] = belong;
+    // request.fields['educational_qualification[]'] = education;
+    // request.fields['permanent_address'] = add;
+    // request.fields['nature_of_business'] = business;
+    // request.fields['aadhaar_no'] = adhar;
+    // request.fields['place'] = place;
+    // request.fields['date'] = date;
+
+    request.files.add(http.MultipartFile(
+        'receipt_image', img.readAsBytes().asStream(), img.lengthSync(),
+        filename: img.path.split('/').last));
+
+    var response = await request.send();
+    // var respBody = await response.stream.bytesToString();
+    // print(await response.stream.bytesToString());
+    // print('$respBody');
     try {
       if (response.statusCode == 200) {
-        if (myResponse['response_code'] == success) {
-          showToast(myResponse['msg'], btnColor);
-          return true;
+        print('done');
+        final myResponse = FranchiseModel.fromJson(
+            jsonDecode(await response.stream.bytesToString()));
+        if (myResponse.responseCode == success) {
+          showToast(myResponse.msg, green);
+          return myResponse;
         } else {
-          showToast(myResponse['msg'], red);
-          return false;
+          showToast(myResponse.msg, red);
+          return null;
         }
       } else {
-        showToast(json.decode(response.body)['msg'], red);
-        return false;
+        throw await response.stream.bytesToString();
       }
     } on SocketException {
       showToast(internetError, red);
